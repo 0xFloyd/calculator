@@ -1,0 +1,41 @@
+.container {
+    margin: 10px;
+    font-family: 'Roboto',
+    sans-serif;
+    font-weight: 100;
+    font-size: 26px;
+}
+
+.calcTitle {
+    padding-top: 30px;
+    padding-bottom: 40px;
+}
+
+.answerRow {
+    line-height: 3;
+    font-size: 26px;
+    font-weight: 100;
+    background-color: rgb(54, 54, 54);
+    color:white;
+    padding: 0px;
+    
+}
+
+.calcButton {
+    background-color: rgb(243, 243, 243);
+    font-size: 26px;
+    font-weight: 100;
+    font-variant-numeric: tabular-nums;
+}
+
+.calcRows {
+    line-height: 3;
+    
+    
+}
+
+.operatorCol {
+    background-color: orange;
+    color: white;
+}
+
