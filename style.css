@@ -1,9 +1,10 @@
+
 .container {
-    margin: 10px;
-    font-family: 'Roboto',
+    font-family: 'Lato',
     sans-serif;
     font-weight: 100;
     font-size: 26px;
+    
 }
 
 .calcTitle {
@@ -12,24 +13,38 @@
 }
 
 .answerRow {
-    line-height: 3;
-    font-size: 26px;
+    font-size: 50px;
     font-weight: 100;
     background-color: rgb(54, 54, 54);
     color:white;
-    padding: 0px;
+    padding-top: 20px;
     
+}
+
+.calculationRow {
+    font-size: 30px;
+    font-weight: 100;
+    background-color: rgb(54, 54, 54);
+    color:white;
+    padding-top: 40px;
 }
 
 .calcButton {
     background-color: rgb(243, 243, 243);
-    font-size: 26px;
+    font-size: 32px;
+    font-weight: 100;
+    font-variant-numeric: tabular-nums;
+}
+
+.calcButton:hover {
+    background-color: rgb(219, 219, 219);
+    font-size: 32px;
     font-weight: 100;
     font-variant-numeric: tabular-nums;
 }
 
 .calcRows {
-    line-height: 3;
+    line-height: 2.75;
     
     
 }
@@ -39,3 +54,7 @@
     color: white;
 }
 
+.operatorCol:hover {
+    background-color: rgb(255, 180, 41);
+    color: white;
+}
