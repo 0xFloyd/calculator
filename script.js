@@ -5,9 +5,15 @@ console.log(buttons);
 let calculatingValue = 0;
 let calculatingValueText = "1 + 2 * 7";
 let answer = 0;
+let currentArray = [];
 let currentInput = "";
-let previousInput = 0;
-let operatorPresent = false;
+let currentNumber = '';
+let previousInput = "";
+let previousNumber = '';
+let operatorsList = ['+', '-', '*', '/', '%', '.', '='];
+let lastOperator = '';
+let lastNumber = '';
+
 
 let answerDisplayed = document.getElementById('answer');
 let calculatingDisplayed = document.getElementById('calculatingValue');
@@ -22,25 +28,79 @@ let equalsButton = document.getElementById('equals');
 let clearButton = document.getElementById('clear');
 clearButton.addEventListener('click', clear);
 
-
 function clear () {
-  displayValue = "0";
   calculatedValue = 0;
-  currentInput = "0";
-  operatorPresent = false;
+  currentArray = [];
+  currentNumber = "";
+  currentInput = "";
+  previousInput = "";
+  lastOperator = '';
+  lastNumber = '';
+  calculatingDisplayed.innerHTML = "";
+  answer = 0;
   return
 }
 
 
-function operate(x, y) {
-  if (this.value == "=") {
-    currentInput = 0;
-    calculatingDisplayed.innerHTML = currentInput;
+function operate(x) {
+  if (operatorsList.includes(this.value) && operatorsList.includes(currentInput)) { //Doesn't allow user to enter operator if last input was operator
     return;
   }
-  currentInput += this.value;
-  console.log(currentInput);
-  calculatingDisplayed.innerHTML = currentInput;
+
+  if (operatorsList.includes(this.value) && currentInput == "") { //Doesn't allow first input to be operator
+    return;
+  }
+
+  if (currentInput == "" && this.value == 0) {  //Doesn't allow first input to be zero
+    return;
+  }
+
+  if (operatorsList.includes(this.value)) {
+    lastOperator = this.value;
+    if (!lastNumber == '') {
+      switch(this.value) {
+        case "+":
+          answer = add(currentNumber, lastNumber);
+          answerDisplayed.innerHTML = answer;
+        case "-":
+          answer = subtract(currentNumber, lastNumber);
+          answerDisplayed.innerHTML = answer;
+        case "*":
+          answer = multiply(currentNumber, lastNumber);
+          answerDisplayed.innerHTML = answer;
+        case "/":
+          answer = divide(currentNumber, lastNumber);
+          answerDisplayed.innerHTML = answer;
+        case "%":
+          answer = percentage(currentNumber, lastNumber);
+          answerDisplayed.innerHTML = answer;
+        
+      }
+    }
+
+    else {
+      lastNumber = currentNumber;
+      currentNumber = '';
+    }
+  }
+
+  if (!operatorsList.includes(this.value)) { //adds digits onto current number
+    currentNumber += this.value;
+    //console.log(currentNumber);
+  }
+
+  currentArray.push(this.value);  //console.log(currentArray);
+  [currentInput, previousInput] = [previousInput, currentInput];  //console.log(previousInput);
+  currentInput = this.value;  //console.log(currentInput);
+  calculatingDisplayed.innerHTML = currentArray.join('');
+  
+  if (currentInput == "=") {
+    clear();
+    return;
+  }
+  
+ 
+
 }
 
 
@@ -62,11 +122,15 @@ function multiply(total, input) {
   return total * input;
 }
 
-function divide (total, input) {
+function divide(total, input) {
+  if (input === 0) {
+    return;
+  }
+
   return total / input;
 }
 
-function percentage (total, input) {
+function percentage(total, input) {
     return total / 100 * input;
 }
 
