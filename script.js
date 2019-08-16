@@ -38,11 +38,16 @@ function clear () {
   lastNumber = '';
   calculatingDisplayed.innerHTML = "";
   answer = 0;
+  answerDisplayed.innerHTML = answer;
   return
 }
 
 
 function operate(x) {
+  if (operatorsList.includes(this.value) && lastOperator == '') { //Doesn't allow user to enter operator if last input was operator
+    lastOperator = this.value;
+  }
+
   if (operatorsList.includes(this.value) && operatorsList.includes(currentInput)) { //Doesn't allow user to enter operator if last input was operator
     return;
   }
@@ -56,32 +61,40 @@ function operate(x) {
   }
 
   if (operatorsList.includes(this.value)) {
-    lastOperator = this.value;
     if (!lastNumber == '') {
       switch(this.value) {
         case "+":
           answer = add(currentNumber, lastNumber);
           answerDisplayed.innerHTML = answer;
+          break;
         case "-":
           answer = subtract(currentNumber, lastNumber);
           answerDisplayed.innerHTML = answer;
+          break;
         case "*":
           answer = multiply(currentNumber, lastNumber);
           answerDisplayed.innerHTML = answer;
+          break;
         case "/":
           answer = divide(currentNumber, lastNumber);
+          console.log(answer);
           answerDisplayed.innerHTML = answer;
+          break;
         case "%":
           answer = percentage(currentNumber, lastNumber);
           answerDisplayed.innerHTML = answer;
-        
+          break; 
       }
+    lastNumber = answer;
+    currentNumber = '';
+    lastOperator = this.value;
     }
 
-    else {
-      lastNumber = currentNumber;
-      currentNumber = '';
-    }
+  else {
+    lastNumber = currentNumber;
+    currentNumber = '';
+  }
+
   }
 
   if (!operatorsList.includes(this.value)) { //adds digits onto current number
@@ -98,8 +111,6 @@ function operate(x) {
     clear();
     return;
   }
-  
- 
 
 }
 
@@ -111,11 +122,11 @@ for (let i = 0; i <= buttons.length; i++) {
 }
 
 function add(total, input) {
-  return total + input;
+  return +total + +input;
 }
 
 function subtract(total, input) {
-  return total - input;
+  return +input - +total;
 }
 
 function multiply(total, input) {
@@ -126,8 +137,8 @@ function divide(total, input) {
   if (input === 0) {
     return;
   }
-
-  return total / input;
+  console.log(total, input);
+  return +input / +total;
 }
 
 function percentage(total, input) {
