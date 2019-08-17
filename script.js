@@ -43,6 +43,8 @@ function clear () {
 }
 
 
+
+
 function operate(x) {
   if (operatorsList.includes(this.value) && lastOperator == '') { //Doesn't allow user to enter operator if last input was operator
     lastOperator = this.value;
@@ -61,8 +63,10 @@ function operate(x) {
   }
 
   if (operatorsList.includes(this.value)) {
-    if (!lastNumber == '') {
-      switch(this.value) {
+    
+    //currentOperator = this.value;
+    if (!lastNumber == '' || this.value == '=') {
+      switch(lastOperator) {
         case "+":
           answer = add(currentNumber, lastNumber);
           answerDisplayed.innerHTML = answer;
@@ -102,16 +106,19 @@ function operate(x) {
     //console.log(currentNumber);
   }
 
-  currentArray.push(this.value);  //console.log(currentArray);
-  [currentInput, previousInput] = [previousInput, currentInput];  //console.log(previousInput);
-  currentInput = this.value;  //console.log(currentInput);
-  calculatingDisplayed.innerHTML = currentArray.join('');
-  
-  if (currentInput == "=") {
-    clear();
-    return;
+  if (lastOperator == '=') {
+    currentArray = [];
+    currentArray.push(answer);
+    calculatingDisplayed.innerHTML = '';
+    //currentNumber = answer;
   }
 
+  else {
+    currentArray.push(this.value); //console.log(currentArray);
+    [currentInput, previousInput] = [previousInput, currentInput]; //console.log(previousInput);
+    currentInput = this.value; //console.log(currentInput);
+    calculatingDisplayed.innerHTML = currentArray.join('');
+  }
 }
 
 
