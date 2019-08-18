@@ -1,6 +1,5 @@
 /* eslint-disable require-jsdoc */
 let buttons = document.getElementsByClassName('emptyButton');
-console.log(buttons);
 
 let calculatingValue = 0;
 let calculatingValueText = "1 + 2 * 7";
@@ -13,6 +12,7 @@ let previousNumber = '';
 let operatorsList = ['+', '-', '*', '/', '%', '.', '='];
 let lastOperator = '';
 let lastNumber = '';
+let equalSignFlag = false;
 
 
 let answerDisplayed = document.getElementById('answer');
@@ -62,6 +62,17 @@ function operate(x) {
     return;
   }
 
+  if (lastOperator == '=' && !operatorsList.includes(this.value)) {
+    currentArray = []; //console.log(currentArray);
+    [currentInput, previousInput] = [previousInput, currentInput]; //console.log(previousInput);
+    currentInput = this.value; //console.log(currentInput);
+    calculatingDisplayed.innerHTML = currentArray.join('');
+    answer = 0;
+    lastNumber = currentNumber;
+    currentNumber = ''; 
+    lastOperator = '';
+  }
+
   if (operatorsList.includes(this.value)) {
     
     //currentOperator = this.value;
@@ -81,7 +92,6 @@ function operate(x) {
           break;
         case "/":
           answer = divide(currentNumber, lastNumber);
-          console.log(answer);
           answerDisplayed.innerHTML = answer;
           break;
         case "%":
@@ -93,7 +103,7 @@ function operate(x) {
     currentNumber = '';
     lastOperator = this.value;
     }
-
+  
   else {
     lastNumber = currentNumber;
     currentNumber = '';
@@ -103,14 +113,21 @@ function operate(x) {
 
   if (!operatorsList.includes(this.value)) { //adds digits onto current number
     currentNumber += this.value;
-    //console.log(currentNumber);
   }
 
   if (lastOperator == '=') {
-    currentArray = [];
-    currentArray.push(answer);
-    calculatingDisplayed.innerHTML = '';
-    //currentNumber = answer;
+    if (calculatingDisplayed.innerHTML == '') {
+      currentArray = [];
+      currentArray.push(this.value); //console.log(currentArray);
+      [currentInput, previousInput] = [previousInput, currentInput]; //console.log(previousInput);
+      currentInput = this.value; //console.log(currentInput);
+      calculatingDisplayed.innerHTML = currentArray.join('');
+    }
+    else {
+      currentArray = [];
+      currentArray.push(answer);
+      calculatingDisplayed.innerHTML = '';
+    }
   }
 
   else {
@@ -144,7 +161,6 @@ function divide(total, input) {
   if (input === 0) {
     return;
   }
-  console.log(total, input);
   return +input / +total;
 }
 
