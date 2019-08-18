@@ -12,7 +12,7 @@ let previousNumber = '';
 let operatorsList = ['+', '-', '*', '/', '%', '.', '='];
 let lastOperator = '';
 let lastNumber = '';
-let equalSignFlag = false;
+let signPosition = 0;
 
 
 let answerDisplayed = document.getElementById('answer');
@@ -24,6 +24,8 @@ let addButton = document.getElementById('add');
 let subtractButton = document.getElementById('subtract');
 let multiplyButton = document.getElementById('multiply');
 let divideButton = document.getElementById('divide');
+let percentageButton = document.getElementById('percentage');
+let inverseButton = document.getElementById('inverse');
 let equalsButton = document.getElementById('equals');
 let clearButton = document.getElementById('clear');
 clearButton.addEventListener('click', clear);
@@ -46,6 +48,26 @@ function clear () {
 
 
 function operate(x) {
+  
+  if (this.value == '|') {
+    if (currentNumber < 0 || previousInput == '|') {
+      return;
+    }
+    if (currentNumber != '' || currentNumber != '' && previousInput == '|') {
+      currentNumber = inverse(currentNumber);
+    }
+    else {
+      previousInput = '|';
+    }
+
+    signPosition = currentArray.lastIndexOf(lastOperator);
+    currentArray.splice((signPosition + 1), 0, '-');
+    calculatingDisplayed.innerHTML = currentArray.join('');
+    return;
+  
+   
+  }
+  
   if (operatorsList.includes(this.value) && lastOperator == '') { //Doesn't allow user to enter operator if last input was operator
     lastOperator = this.value;
   }
@@ -113,6 +135,9 @@ function operate(x) {
 
   if (!operatorsList.includes(this.value)) { //adds digits onto current number
     currentNumber += this.value;
+    if (previousInput == '|') {
+      currentNumber = inverse(currentNumber);
+    }
   }
 
   if (lastOperator == '=') {
@@ -158,8 +183,9 @@ function multiply(total, input) {
 }
 
 function divide(total, input) {
-  if (input === 0) {
-    return;
+  if (total == 0) {
+    answer = 'no.';
+    return answer;
   }
   return +input / +total;
 }
@@ -169,33 +195,7 @@ function percentage(total, input) {
 }
 
 function inverse(x) {
-  return x * -1; 
+  return +x * -1; 
 }
 
 
-
-let testButton = document.getElementById("seven").value;
-
-
-
-
-
-
-/* 
-buttons.forEach((button) => {
-  button.addEventListener('click', () => {
-    buttonId = button.id;
-    button.addEventListener('click', operate);
-  });
-  button.addEventListener('click', operate);
-});
-
-
-console.log(buttons);
-buttons.forEach(function(elem) {
-  elem.addEventListener('click', function() {
-    alert('Hello World!');
-  });
-});
-// eslint-disable-next-line require-jsdoc
-*/
